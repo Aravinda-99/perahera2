@@ -1,0 +1,17 @@
+/* ============================
+   SIMPLE FOOTER
+   ============================ */
+   .footer {
+    background-color: var(--dark); /* Kalu background */
+    color: #fff;
+    padding: 20px 0; /* Uda saha yata ida */
+    margin-top: auto; /* Content adu unath pahalama thiyanna udaw wei */
+    text-align: center; /* Text eka center karanna */
+    width: 100%;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+    color: #999; /* Text eka tikak gray karanna */
+}
