@@ -1,0 +1,290 @@
+:root {
+    --primary: #e65141;
+    --dark: #1a1a1a;
+    --light: #ffffff;
+    --gray: #f4f4f4;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--dark);
+}
+
+/* Navbar wrapper */
+/* Navbar wrapper */
+.navbar {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+}
+
+/* Main container */
+.nav-container {
+    display: flex;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Logo section - left */
+.logo {
+    flex: 1;
+}
+
+/* Logo image */
+.logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+/* Nav links - center */
+/* Navbar wrapper */
+.navbar {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+}
+
+/* Main container */
+.nav-container {
+    display: flex;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Logo section - left */
+.logo {
+    flex: 1;
+}
+
+/* Logo image */
+.logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+/* Nav links - center */
+.nav-links {
+    flex: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Nav link items */
+.nav-links li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Nav link anchors */
+.nav-links a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+/* Hover & active state */
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+}
+
+/* Right side - login button */
+.nav-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end; /* push button to right */
+    align-items: center;
+}
+
+.login-button {
+    background: var(--primary);
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background: darken(var(--primary), 10%);
+}
+
+
+/* ============================
+   HERO SECTION (Updated for Video)
+   ============================ */
+.hero {
+    position: relative; /* Essential for positioning video inside */
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    overflow: hidden; /* Ensures video doesn't spill out */
+}
+
+/* Video Background Style */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This makes the video act like a background image */
+    z-index: -2; /* Puts video at the very back */
+}
+
+/* Dark Overlay (Video eka uda thiyena kalu pata layer eka) */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* 0.4 change karala kalu gathiya wadi/adu karanna puluwan */
+    z-index: -1; 
+}
+
+/* Content eka uda pennanna */
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    max-width: 800px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-content .badge {
+    background: var(--primary);
+    border-radius: 50px;
+    padding: 5px 15px;
+}
+
+.hero-content-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.hero-content-p {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 10px;
+    color: #c0c0c0;
+    width: 800px;
+}
+
+/* ============================
+   SEARCH CONTAINER
+   ============================ */
+.search-container {
+    max-width: 1100px;
+    margin: -50px auto 50px; /* Overlaps Hero */
+    position: relative;
+    z-index: 10;
+    padding: 0 20px; /* Mobile wala side walin ida thiyanna */
+}
+
+.search-card {
+    background: rgb(240, 240, 240);
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.search-card-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 5px;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+/* ============================
+   POPULAR LOCATIONS
+   ============================ */
+.popular-locations {
+    background-image: url('asset/images/bg-popular.png');
+    max-width: 1100px;
+    margin: 80px auto;
+    text-align: center;
+    padding: 0 20px;
+    margin-top: 0;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.section-header h2 u {
+    text-decoration-color: var(--primary);
+    text-underline-offset: 5px;
+}
+
+.section-header p {
+    color: #777;
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.location-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.location-card {
+    height: 250px;
+    border-radius: 15px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.location-card:hover {
+    transform: translateY(-5px);
+}
+
+.location-card span {
+    background: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
