@@ -288,3 +288,238 @@ body {
     font-size: 0.9rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+
+/* ============================
+   BOOKING MODAL STYLES
+   ============================ */
+   .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Black with opacity */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); /* Background blur effect */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    animation: slideDown 0.4s ease;
+    text-align: center;
+}
+
+/* Modal Animation */
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    color: var(--primary); /* Hover color */
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--dark);
+    font-size: 1.8rem;
+}
+
+/* ============================
+   SEAT GRID STYLES
+   ============================ */
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 Seats per row */
+    gap: 10px;
+    margin: 20px 0;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 200px;
+    overflow-y: auto; /* Scroll if too many seats */
+}
+
+.seat {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2ecc71; /* Green for Available */
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.seat:hover {
+    background-color: #27ae60;
+    transform: scale(1.05);
+}
+
+/* Booked Seat (Red) */
+.seat.booked {
+    background-color: #e74c3c;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Selected Seat (Blue) */
+.seat.selected {
+    background-color: #3498db;
+    border: 2px solid #2980b9;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    transform: scale(1.1);
+}
+
+#seat-status {
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* === BOOKING PANEL (Dropdown Area) === */
+.booking-panel {
+    display: none; /* Muladi penne na */
+    background-color: #f8f9fa;
+    border-top: 4px solid var(--primary);
+    padding: 40px 0;
+    margin-top: 20px;
+    box-shadow: inset 0 10px 20px rgba(0,0,0,0.05);
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.booking-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+.close-panel-btn {
+    position: absolute;
+    right: 20px;
+    top: -10px;
+    background: #333;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Layout Split (Seats Left, Form Right) */
+.booking-layout {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+    flex-wrap: wrap; /* Mobile waladi yatata watenna */
+}
+
+.seats-area {
+    flex: 1; /* 50% width */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.form-area {
+    flex: 1; /* 50% width */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* Grid eka poddak lokuwata pennanna panel eka athule */
+.seat-grid {
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 15px;
+}
+
+/* Active Location Card Highlight */
+.location-card.active-loc {
+    border: 4px solid var(--primary);
+    transform: scale(0.98);
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column; /* Elements vertical stack karanawa */
+    gap: 15px; /* Hama input ekak atharama ida thiyanawa */
+    width: 100%;
+}
+
+/* Label Styles */
+.booking-form label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: -10px; /* Label eka input ekata tikak lan karanna */
+}
+
+/* Input Field Styles */
+.booking-form input[type="text"] {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Mulu round wenawa */
+    font-size: 16px;
+    width: 100%; /* Box eka purawata widenawa */
+    box-sizing: border-box; /* Padding nisa loku wena eka nawaththanawa */
+    transition: border 0.3s ease;
+}
+
+/* Input eka click kalahama paata wenas wenna */
+.booking-form input[type="text"]:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 5px rgba(230, 81, 65, 0.2);
+}
+
+/* Confirm Button Styles */
+.btn-submit {
+    background-color: var(--primary); /* Oyage theme color eka */
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+.btn-submit:hover {
+    filter: brightness(0.9); /* Mouse eka genichchama poddak dark wenawa */
+}
