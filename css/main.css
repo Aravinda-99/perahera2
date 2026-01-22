@@ -11,119 +11,118 @@ body {
     color: var(--dark);
 }
 
-/* Navbar wrapper */
-/* Navbar wrapper */
-.navbar {
+/* ============================
+   NAVBAR STYLES (Logo Left - Links & Login Right)
+   ============================ */
+   .navbar {
     padding: 15px 0;
     border-bottom: 1px solid #eee;
     background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-/* Main container */
 .nav-container {
     display: flex;
     align-items: center;
+    /* justify-content: space-between; <-- Meka ain kala */
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* Logo section - left */
+/* 1. LEFT: Logo */
 .logo {
-    flex: 1;
-}
-
-/* Logo image */
-.logo img {
-    height: 40px;
-    width: auto;
-    display: block;
-}
-
-/* Nav links - center */
-/* Navbar wrapper */
-.navbar {
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-    background: #fff;
-}
-
-/* Main container */
-.nav-container {
+    /* Flex ain karala margin-right: auto denawa */
+    margin-right: auto; /* Meken anith okkoma dakunata thallu wenawa */
     display: flex;
     align-items: center;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
 }
 
-/* Logo section - left */
-.logo {
-    flex: 1;
-}
-
-/* Logo image */
 .logo img {
-    height: 40px;
+    height: 45px;
     width: auto;
-    display: block;
 }
 
-/* Nav links - center */
+/* 2. CENTER (Now RIGHT): Nav Links */
 .nav-links {
-    flex: 1;
+    /* flex: 2; <-- Meka ain kala */
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 30px;
+    margin-right: 40px; /* Links saha Login button athara ida */
 }
 
-/* Nav link items */
-.nav-links li {
-    margin: 0;
-    padding: 0;
-}
-
-/* Nav link anchors */
 .nav-links a {
     text-decoration: none;
     color: #444;
     font-weight: 500;
     font-size: 16px;
-    transition: color 0.3s ease;
+    transition: color 0.3s;
 }
 
-/* Hover & active state */
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--primary);
 }
 
-/* Right side - login button */
+/* 3. RIGHT: User/Login Section */
 .nav-right {
-    flex: 1;
+    /* flex: 1; <-- Meka ain kala */
     display: flex;
-    justify-content: flex-end; /* push button to right */
     align-items: center;
+    gap: 15px;
 }
 
+/* Styles for Buttons (Same as before) */
 .login-button {
-    background: var(--primary);
-    color: rgb(255, 255, 255);
-    padding: 10px 20px;
+    background-color: var(--primary);
+    color: white;
+    padding: 8px 20px;
     border-radius: 5px;
     text-decoration: none;
-    font-weight: 500;
-    transition: background 0.3s ease;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+    border: 1px solid var(--primary);
 }
 
 .login-button:hover {
-    background: darken(var(--primary), 10%);
+    background-color: white;
+    color: var(--primary);
 }
 
+.signup-button {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.user-greeting {
+    font-weight: bold;
+    color: var(--dark);
+    margin-right: 5px;
+}
+
+.btn-logout {
+    text-decoration: none;
+    color: #e74c3c;
+    font-weight: bold;
+    font-size: 14px;
+    border: 1px solid #e74c3c;
+    padding: 6px 15px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #e74c3c;
+    color: white;
+}
 
 /* ============================
    HERO SECTION (Updated for Video)
@@ -522,4 +521,74 @@ body {
 
 .btn-submit:hover {
     filter: brightness(0.9); /* Mouse eka genichchama poddak dark wenawa */
+}
+
+/* ============================
+   PAYMENT MODAL STYLES
+   ============================ */
+   .payment-modal {
+    display: none; /* Muladi penne na */
+    position: fixed;
+    z-index: 2000; /* Anith okkotama wada udin */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8); /* Kalu paata background */
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.payment-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    text-align: center;
+    animation: popUp 0.3s ease-out;
+}
+
+@keyframes popUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.payment-header {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.payment-inputs input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.card-row {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-pay {
+    width: 100%;
+    padding: 15px;
+    background-color: #27ae60; /* Green Color */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-pay:hover {
+    background-color: #219150;
 }
