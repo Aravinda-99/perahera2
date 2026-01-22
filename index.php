@@ -1,15 +1,100 @@
+<?php
+// Start session to access logged-in user data
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>peraheara festival 2026</title>
+    <title>Perahera Festival 2026 - Book Tickets</title>
+    
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* === PAYMENT MODAL STYLES === */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .payment-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            text-align: center;
+            animation: popUp 0.3s ease-out;
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .payment-header {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .payment-inputs input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 15px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-pay:hover {
+            background-color: #219150;
+        }
+        
+        /* Close button for modal */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
 
@@ -20,148 +105,249 @@
             <source src="hero-video/v1.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-
         <div class="hero-overlay"></div>
-
         <div class="hero-content">
             <h1 class="hero-content-h1">Experience the Sacred Splendor of the Gangaramaya Perahera!</h1>
-            <p class="hero-content-p">Reserve your seats online and witness Sri Lanka’s most revered cultural procession, where tradition and devotion come together.</p>
-           
+            <p class="hero-content-p">Reserve your seats online and witness Sri Lanka’s most revered cultural procession.</p>
         </div>
     </section>
 
     <section class="search-container">
         <div class="search-card">
+            <h1 class="search-card-h1">Select Your Location To Book Your Ticket</h1>
+        </div>
+    </section>
 
-        <h1 class="search-card-h1">Select Your Location To Book Your Ticket</h1>
-    </div>
-</section>
-
-
-    <!-- <section class="popular-locations">
+    <section class="popular-locations">
         <div class="section-header">
             <h2><u>Popular</u> Locations</h2>
-            <p>Connecting Needs with Offers for the Professional Flight Services, Book your next flight appointment with ease.</p>
         </div>
         <div class="location-grid">
-            <div class="location-card" style="background-image: url('https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?q=80&w=400')">
+            <div class="location-card" onclick="toggleBookingSection(1)" style="background-image: url('https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?q=80&w=400')">
                 <span>Location A</span>
             </div>
-            <div class="location-card" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
+            <div class="location-card" onclick="toggleBookingSection(2)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
                 <span>Location B</span>
             </div>
-            <div class="location-card" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
+            <div class="location-card" onclick="toggleBookingSection(3)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
                 <span>Location C</span>
             </div>
-            <div class="location-card" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
+            <div class="location-card" onclick="toggleBookingSection(4)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
                 <span>Location D</span>
             </div>
         </div>
-    </section> -->
+    </section>
 
-    <section class="popular-locations">
-    <div class="section-header">
-        <h2><u>Popular</u> Locations</h2>
-    </div>
-    <div class="location-grid">
-        <div class="location-card" onclick="toggleBookingSection(1)" style="background-image: url('https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?q=80&w=400')">
-            <span>Location A</span>
-        </div>
-        <div class="location-card" onclick="toggleBookingSection(2)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
-            <span>Location B</span>
-        </div>
-        <div class="location-card" onclick="toggleBookingSection(3)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
-            <span>Location C</span>
-        </div>
-        <div class="location-card" onclick="toggleBookingSection(4)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
-            <span>Location D</span>
-        </div>
-    </div>
-</section>
-
-<section id="booking-panel" class="booking-panel">
-    <div class="booking-container">
-        <button class="close-panel-btn" onclick="closeBookingPanel()"><i class="fas fa-times"></i> Close</button>
-        
-        <h2 id="panel-title">Select Seats</h2>
-        <p>Select an available seat (Green) to proceed.</p>
-
-        <div class="booking-layout">
+    <section id="booking-panel" class="booking-panel" style="display:none;">
+        <div class="booking-container">
+            <button class="close-panel-btn" onclick="closeBookingPanel()"><i class="fas fa-times"></i> Close</button>
             
-            <div class="seats-area">
-                <div class="seat-grid" id="seat-container"></div>
-                <p id="seat-status">Please select a seat.</p>
-            </div>
+            <h2 id="panel-title">Select Seats</h2>
+            <p>Select an available seat (Green) to proceed.</p>
 
-            <div class="form-area">
-                <form action="process_booking.php" method="POST" class="booking-form" onsubmit="return validateForm()">
-                    <input type="hidden" name="location_id" id="form-location-id">
-                    <input type="hidden" name="seat_number" id="form-seat">
-                    
-                    <label>Full Name</label>
-                    <input type="text" name="full_name" required placeholder="Enter Name">
-                    
-                    <label>Phone Number</label>
-                    <input type="text" name="phone_number" required placeholder="07x xxxxxxx">
-                    
-                    <button type="submit" class="btn-submit">Confirm Booking</button>
-                </form>
+            <div class="booking-layout">
+                <div class="seats-area">
+                    <div class="seat-grid" id="seat-container"></div>
+                    <p id="seat-status">Please select a seat.</p>
+                </div>
+
+                <div class="form-area">
+                    <form id="main-booking-form" action="process_booking.php" method="POST" class="booking-form">
+                        <input type="hidden" name="location_id" id="form-location-id">
+                        <input type="hidden" name="seat_number" id="form-seat">
+                        
+                        <div style="background: #eef; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ccd;">
+                            <p style="margin:5px 0; font-weight:bold;">Ticket Price: Rs. <span id="display-price">0.00</span></p>
+                            <p style="margin:5px 0; color: green; font-size: 14px; display:none;" id="discount-msg">
+                                Discount: - Rs. <span id="display-discount">0</span>
+                            </p>
+                            <hr style="border-top: 1px solid #ccc;">
+                            <p style="margin:5px 0; font-size: 1.2rem; font-weight:bold; color: var(--primary);">
+                                Total: Rs. <span id="display-total">0.00</span>
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="final_price" id="input-final-price">
+                        <input type="hidden" name="discount_amount" id="input-discount-amount">
+
+                        <label>Full Name</label>
+                        <input type="text" id="cust-name" name="full_name" required placeholder="Enter Name">
+                        
+                        <label>Phone Number</label>
+                        <input type="text" id="cust-phone" name="phone_number" required placeholder="07x xxxxxxx">
+
+                        <label>Referral Code (Optional)</label>
+                        <div style="display: flex; gap: 10px; margin-bottom: 5px;">
+                            <input type="text" name="agent_code" id="agent-code" placeholder="Enter Agent Code">
+                            <button type="button" onclick="applyCode()" style="background: #333; color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer;">Apply</button>
+                        </div>
+                        <small id="code-status" style="display: block; margin-bottom: 15px; font-weight:bold;"></small>
+                        
+                        <button type="button" class="btn-submit" onclick="openPaymentModal()">Proceed to Payment</button>
+                    </form>
+                </div>
             </div>
         </div>
+    </section>
+
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-content">
+            <span class="close-btn" onclick="closePaymentModal()">&times;</span>
+            
+            <div class="payment-header">
+                <h3><i class="fas fa-lock"></i> Secure Payment</h3>
+                <p>Total to Pay: <strong style="color: #27ae60; font-size: 1.2rem;">Rs. <span id="pay-amount-display">0.00</span></strong></p>
+            </div>
+
+            <div class="payment-inputs">
+                <input type="text" placeholder="Card Number (Dummy)" maxlength="16">
+                <div class="card-row">
+                    <input type="text" placeholder="MM/YY" maxlength="5">
+                    <input type="text" placeholder="CVC" maxlength="3">
+                </div>
+                <input type="text" placeholder="Cardholder Name">
+            </div>
+
+            <button class="btn-pay" onclick="confirmPaymentAndBook()">Pay Now</button>
+        </div>
     </div>
-</section>
 
     <?php include 'asset/footer.php'; ?>
 
     <script>
+    // ==========================================
+    // GLOBAL VARIABLES
+    // ==========================================
+    let currentTicketPrice = 0;
+    let discountPercentage = 0; 
+    let discountAmountInRupees = 0;
+    let finalPayableAmount = 0;
+
+    // ==========================================
+    // 1. TOGGLE BOOKING PANEL & AUTO-FILL
+    // ==========================================
     function toggleBookingSection(locationId) {
         const panel = document.getElementById('booking-panel');
         const title = document.getElementById('panel-title');
         const formLocId = document.getElementById('form-location-id');
         const seatContainer = document.getElementById('seat-container');
         
-        // 1. Highlight Logic (Select karapu card eka highlight karanna)
+        // Remove highlight from all cards
         document.querySelectorAll('.location-card').forEach(card => card.classList.remove('active-loc'));
-        // NOTE: Methana 'this' wada karanne nathi nisa, click event eken pass karanna oni element eka
-        // Eth saralawama highlight nathiwa wada karamu mulin.
         
-        // 2. Open Panel & Scroll
+        // Show panel and scroll
         panel.style.display = 'block';
-        
-        // Smooth scroll to the booking panel
         panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        // 3. Set Values
         formLocId.value = locationId;
         seatContainer.innerHTML = "<p>Loading available seats...</p>";
         title.innerText = "Checking availability...";
+        
+        // Reset Logic
+        discountPercentage = 0;
+        discountAmountInRupees = 0;
+        document.getElementById('agent-code').value = '';
+        document.getElementById('discount-msg').style.display = 'none';
+        document.getElementById('code-status').innerText = '';
+        
+        // === AUTO FILL LOGIC (From PHP Session) ===
+        // Note: Using PHP echo inside JS string
+        const loggedInName = "<?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : ''; ?>";
+        const loggedInPhone = "<?php echo isset($_SESSION['user_phone']) ? $_SESSION['user_phone'] : ''; ?>";
 
-        // 4. AJAX Request (Parana widihamai)
+        if(loggedInName !== "") {
+            document.getElementById('cust-name').value = loggedInName;
+            // document.getElementById('cust-name').readOnly = true; // Uncomment if you want to lock the name
+        }
+        if(loggedInPhone !== "") {
+            document.getElementById('cust-phone').value = loggedInPhone;
+        }
+
+        // Fetch Data from Backend
         const formData = new FormData();
         formData.append('location_id', locationId);
 
-        fetch('get_seat_details.php', {
-            method: 'POST',
-            body: formData
-        })
+        fetch('get_seat_details.php', { method: 'POST', body: formData })
         .then(response => response.json())
         .then(data => {
             title.innerText = "Book Seats for " + data.location_name;
+            currentTicketPrice = parseFloat(data.ticket_price);
+            updatePriceDisplay();
             generateSeats(data.total_seats, data.booked_seats);
         })
         .catch(error => {
             console.error('Error:', error);
-            seatContainer.innerHTML = "<p style='color:red'>Error loading seats.</p>";
+            seatContainer.innerHTML = "<p style='color:red'>Error loading data.</p>";
         });
     }
 
     function closeBookingPanel() {
         document.getElementById('booking-panel').style.display = 'none';
-        // Scroll back up to locations
         document.querySelector('.popular-locations').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Seat Generation (Parana code ekamai, podi CSS class change ekak witarai)
+    // ==========================================
+    // 2. REFERRAL CODE (PERCENTAGE)
+    // ==========================================
+    function applyCode() {
+        const code = document.getElementById('agent-code').value;
+        const statusMsg = document.getElementById('code-status');
+
+        if(code.trim() === "") {
+            statusMsg.innerText = "Please enter a code.";
+            statusMsg.style.color = "red";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('agent_code', code);
+
+        fetch('check_agent.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                discountPercentage = parseFloat(data.discount);
+                statusMsg.innerText = "Success! " + discountPercentage + "% Discount Applied.";
+                statusMsg.style.color = "green";
+                updatePriceDisplay();
+            } else {
+                discountPercentage = 0;
+                statusMsg.innerText = "Invalid Agent Code";
+                statusMsg.style.color = "red";
+                updatePriceDisplay();
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
+    // ==========================================
+    // 3. PRICE UPDATE LOGIC
+    // ==========================================
+    function updatePriceDisplay() {
+        // Calculation: (Price * Percentage) / 100
+        discountAmountInRupees = (currentTicketPrice * discountPercentage) / 100;
+        finalPayableAmount = currentTicketPrice - discountAmountInRupees;
+
+        // Update UI Text
+        document.getElementById('display-price').innerText = currentTicketPrice.toFixed(2);
+        document.getElementById('display-total').innerText = finalPayableAmount.toFixed(2);
+        
+        // Update Hidden Inputs
+        document.getElementById('input-final-price').value = finalPayableAmount;
+        document.getElementById('input-discount-amount').value = discountAmountInRupees;
+
+        // Show/Hide Discount Message
+        if(discountPercentage > 0) {
+            document.getElementById('discount-msg').style.display = 'block';
+            document.getElementById('display-discount').innerText = discountAmountInRupees.toFixed(2) + " (" + discountPercentage + "%)";
+        } else {
+            document.getElementById('discount-msg').style.display = 'none';
+        }
+    }
+
+    // ==========================================
+    // 4. SEAT GENERATION
+    // ==========================================
     function generateSeats(totalSeats, bookedSeats) {
         const container = document.getElementById('seat-container');
         container.innerHTML = ""; 
@@ -175,9 +361,7 @@
                 seatDiv.classList.add('booked');
                 seatDiv.title = "Already Booked";
             } else {
-                seatDiv.onclick = function() {
-                    selectSeat(this, i);
-                };
+                seatDiv.onclick = function() { selectSeat(this, i); };
             }
             container.appendChild(seatDiv);
         }
@@ -188,19 +372,59 @@
         element.classList.add('selected');
         
         document.getElementById('form-seat').value = seatNum;
-        document.getElementById('seat-status').innerText = "Selected Seat: No " + seatNum;
+        document.getElementById('seat-status').innerText = "Selected Seat: " + seatNum;
         document.getElementById('seat-status').style.color = "var(--primary)";
         document.getElementById('seat-status').style.fontWeight = "bold";
     }
 
-    function validateForm() {
+    // ==========================================
+    // 5. PAYMENT MODAL FUNCTIONS
+    // ==========================================
+    function openPaymentModal() {
+        // A. Validation
         const seat = document.getElementById('form-seat').value;
+        const name = document.getElementById('cust-name').value;
+        const phone = document.getElementById('cust-phone').value;
+
         if (!seat) {
             alert("Please select a seat first!");
-            return false;
+            return;
         }
-        return true;
+        if (name.trim() === "" || phone.trim() === "") {
+            alert("Please enter your Name and Phone Number.");
+            return;
+        }
+
+        // B. Set Amount
+        document.getElementById('pay-amount-display').innerText = finalPayableAmount.toFixed(2);
+
+        // C. Show Modal
+        document.getElementById('paymentModal').style.display = 'flex';
     }
-</script>
+
+    function closePaymentModal() {
+        document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    // Confirm Payment Logic
+    function confirmPaymentAndBook() {
+        // Disable button to prevent double click
+        const btn = document.querySelector('.btn-pay');
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        // Submit the main form
+        document.getElementById('main-booking-form').submit();
+    }
+    
+    // Close modal if clicked outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('paymentModal');
+        if (event.target == modal) {
+            closePaymentModal();
+        }
+    }
+    </script>
+
 </body>
 </html>
