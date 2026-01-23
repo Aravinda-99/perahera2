@@ -17,12 +17,21 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <div class="nav-right">
             <?php if(isset($_SESSION['user_id'])): ?>
-                <span class="user-greeting">Hi, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-                <a href="logout.php" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
+                <a href="profile.php" class="btn-profile">
+                    <i class="fas fa-user-circle"></i> Profile
+                </a>
+                
+                <!-- <span class="user-greeting">Hi, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span> -->
+                
+                
+                <a href="logout.php" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+
             <?php else: ?>
                 <a href="login.php" class="login-button">Login</a>
-                <!-- <a href="signup.php" class="signup-button">Sign Up</a> -->
-            <?php endif; ?>
+                <?php endif; ?>
         </div>
 
     </nav>
