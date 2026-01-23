@@ -15,6 +15,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         /* === PAYMENT MODAL STYLES === */
@@ -112,30 +113,32 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     </section>
 
-    <section class="search-container">
-        <div class="search-card">
-            <h1 class="search-card-h1">Select Your Location To Book Your Ticket</h1>
-        </div>
-    </section>
+    <section class="locations-wrapper">
+        <section class="search-container">
+            <div class="search-card">
+                <h1 class="search-card-h1">Select Your Location To Book Your Ticket</h1>
+            </div>
+        </section>
 
-    <section class="popular-locations">
-        <div class="section-header">
-            <h2><u>Popular</u> Locations</h2>
-        </div>
-        <div class="location-grid">
-            <div class="location-card" onclick="toggleBookingSection(1)" style="background-image: url('https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?q=80&w=400')">
-                <span>Location A</span>
+        <section class="popular-locations">
+            <div class="section-header">
+                <h2><u>Popular</u> Locations</h2>
             </div>
-            <div class="location-card" onclick="toggleBookingSection(2)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
-                <span>Location B</span>
+            <div class="location-grid">
+                <div class="location-card" onclick="toggleBookingSection(1)" style="background-image: url('https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?q=80&w=400')">
+                    <span>Location A</span>
+                </div>
+                <div class="location-card" onclick="toggleBookingSection(2)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
+                    <span>Location B</span>
+                </div>
+                <div class="location-card" onclick="toggleBookingSection(3)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
+                    <span>Location C</span>
+                </div>
+                <div class="location-card" onclick="toggleBookingSection(4)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
+                    <span>Location D</span>
+                </div>
             </div>
-            <div class="location-card" onclick="toggleBookingSection(3)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
-                <span>Location C</span>
-            </div>
-            <div class="location-card" onclick="toggleBookingSection(4)" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=400')">
-                <span>Location D</span>
-            </div>
-        </div>
+        </section>
     </section>
 
     <section id="booking-panel" class="booking-panel" style="display:none;">
@@ -216,6 +219,12 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <script>
     // ==========================================
+    // 0. CHECK LOGIN STATUS (PHP to JS)
+    // ==========================================
+    // User log wela innam 'true', nathnam 'false' kiyana eka methana set wenawa
+    const isLoggedIn = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
+
+    // ==========================================
     // GLOBAL VARIABLES
     // ==========================================
     let currentTicketPrice = 0;
@@ -224,18 +233,37 @@ if (session_status() === PHP_SESSION_NONE) {
     let finalPayableAmount = 0;
 
     // ==========================================
-    // 1. TOGGLE BOOKING PANEL & AUTO-FILL
+    // 1. TOGGLE BOOKING PANEL
     // ==========================================
     function toggleBookingSection(locationId) {
+        
+        // --- NEW: CHECK LOGIN FIRST ---
+        if (!isLoggedIn) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Login Required',
+                text: 'Please log in to book your seats.',
+                showCloseButton: true, // <--- Methanatath damma
+                confirmButtonText: 'Login Now',
+                confirmButtonColor: '#FF9933',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.php'; 
+                }
+            });
+            return; 
+        }
+
+        // --- Log wela nam pahala tika wada karanawa ---
+
         const panel = document.getElementById('booking-panel');
         const title = document.getElementById('panel-title');
         const formLocId = document.getElementById('form-location-id');
         const seatContainer = document.getElementById('seat-container');
         
-        // Remove highlight from all cards
         document.querySelectorAll('.location-card').forEach(card => card.classList.remove('active-loc'));
         
-        // Show panel and scroll
         panel.style.display = 'block';
         panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
@@ -250,20 +278,13 @@ if (session_status() === PHP_SESSION_NONE) {
         document.getElementById('discount-msg').style.display = 'none';
         document.getElementById('code-status').innerText = '';
         
-        // === AUTO FILL LOGIC (From PHP Session) ===
-        // Note: Using PHP echo inside JS string
+        // Auto Fill Logic
         const loggedInName = "<?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : ''; ?>";
         const loggedInPhone = "<?php echo isset($_SESSION['user_phone']) ? $_SESSION['user_phone'] : ''; ?>";
 
-        if(loggedInName !== "") {
-            document.getElementById('cust-name').value = loggedInName;
-            // document.getElementById('cust-name').readOnly = true; // Uncomment if you want to lock the name
-        }
-        if(loggedInPhone !== "") {
-            document.getElementById('cust-phone').value = loggedInPhone;
-        }
+        if(loggedInName !== "") document.getElementById('cust-name').value = loggedInName;
+        if(loggedInPhone !== "") document.getElementById('cust-phone').value = loggedInPhone;
 
-        // Fetch Data from Backend
         const formData = new FormData();
         formData.append('location_id', locationId);
 
@@ -287,17 +308,13 @@ if (session_status() === PHP_SESSION_NONE) {
     }
 
     // ==========================================
-    // 2. REFERRAL CODE (PERCENTAGE)
+    // 2. REFERRAL CODE & PRICE UPDATE
     // ==========================================
     function applyCode() {
         const code = document.getElementById('agent-code').value;
         const statusMsg = document.getElementById('code-status');
 
-        if(code.trim() === "") {
-            statusMsg.innerText = "Please enter a code.";
-            statusMsg.style.color = "red";
-            return;
-        }
+        if(code.trim() === "") return;
 
         const formData = new FormData();
         formData.append('agent_code', code);
@@ -307,46 +324,38 @@ if (session_status() === PHP_SESSION_NONE) {
         .then(data => {
             if(data.status === 'success') {
                 discountPercentage = parseFloat(data.discount);
-                statusMsg.innerText = "Success! " + discountPercentage + "% Discount Applied.";
+                statusMsg.innerText = "Success! " + discountPercentage + "% Discount.";
                 statusMsg.style.color = "green";
                 updatePriceDisplay();
             } else {
                 discountPercentage = 0;
-                statusMsg.innerText = "Invalid Agent Code";
+                statusMsg.innerText = "Invalid Code";
                 statusMsg.style.color = "red";
                 updatePriceDisplay();
             }
-        })
-        .catch(err => console.error(err));
+        });
     }
 
-    // ==========================================
-    // 3. PRICE UPDATE LOGIC
-    // ==========================================
     function updatePriceDisplay() {
-        // Calculation: (Price * Percentage) / 100
         discountAmountInRupees = (currentTicketPrice * discountPercentage) / 100;
         finalPayableAmount = currentTicketPrice - discountAmountInRupees;
 
-        // Update UI Text
         document.getElementById('display-price').innerText = currentTicketPrice.toFixed(2);
         document.getElementById('display-total').innerText = finalPayableAmount.toFixed(2);
         
-        // Update Hidden Inputs
         document.getElementById('input-final-price').value = finalPayableAmount;
         document.getElementById('input-discount-amount').value = discountAmountInRupees;
 
-        // Show/Hide Discount Message
         if(discountPercentage > 0) {
             document.getElementById('discount-msg').style.display = 'block';
-            document.getElementById('display-discount').innerText = discountAmountInRupees.toFixed(2) + " (" + discountPercentage + "%)";
+            document.getElementById('display-discount').innerText = discountAmountInRupees.toFixed(2);
         } else {
             document.getElementById('discount-msg').style.display = 'none';
         }
     }
 
     // ==========================================
-    // 4. SEAT GENERATION
+    // 3. SEATS & MODAL
     // ==========================================
     function generateSeats(totalSeats, bookedSeats) {
         const container = document.getElementById('seat-container');
@@ -359,7 +368,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
             if (bookedSeats.includes(i.toString()) || bookedSeats.includes(i)) {
                 seatDiv.classList.add('booked');
-                seatDiv.title = "Already Booked";
             } else {
                 seatDiv.onclick = function() { selectSeat(this, i); };
             }
@@ -370,18 +378,12 @@ if (session_status() === PHP_SESSION_NONE) {
     function selectSeat(element, seatNum) {
         document.querySelectorAll('.seat.selected').forEach(el => el.classList.remove('selected'));
         element.classList.add('selected');
-        
         document.getElementById('form-seat').value = seatNum;
         document.getElementById('seat-status').innerText = "Selected Seat: " + seatNum;
         document.getElementById('seat-status').style.color = "var(--primary)";
-        document.getElementById('seat-status').style.fontWeight = "bold";
     }
 
-    // ==========================================
-    // 5. PAYMENT MODAL FUNCTIONS
-    // ==========================================
     function openPaymentModal() {
-        // A. Validation
         const seat = document.getElementById('form-seat').value;
         const name = document.getElementById('cust-name').value;
         const phone = document.getElementById('cust-phone').value;
@@ -395,10 +397,7 @@ if (session_status() === PHP_SESSION_NONE) {
             return;
         }
 
-        // B. Set Amount
         document.getElementById('pay-amount-display').innerText = finalPayableAmount.toFixed(2);
-
-        // C. Show Modal
         document.getElementById('paymentModal').style.display = 'flex';
     }
 
@@ -406,25 +405,18 @@ if (session_status() === PHP_SESSION_NONE) {
         document.getElementById('paymentModal').style.display = 'none';
     }
 
-    // Confirm Payment Logic
     function confirmPaymentAndBook() {
-        // Disable button to prevent double click
         const btn = document.querySelector('.btn-pay');
         btn.innerText = "Processing...";
         btn.disabled = true;
-
-        // Submit the main form
         document.getElementById('main-booking-form').submit();
     }
     
-    // Close modal if clicked outside
     window.onclick = function(event) {
         const modal = document.getElementById('paymentModal');
-        if (event.target == modal) {
-            closePaymentModal();
-        }
+        if (event.target == modal) closePaymentModal();
     }
-    </script>
+</script>
 
 </body>
 </html>

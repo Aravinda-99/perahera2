@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // 2. INCLUDE DATABASE CONNECTION
 // (Oyage file name eka 'db.php' nam methana 'asset/db.php' kiyala wenas karanna)
-include 'asset/db_connection.php';
+include 'asset/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- GET FORM DATA ---
